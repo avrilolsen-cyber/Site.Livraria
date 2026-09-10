@@ -3,18 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Livraria Web - Desktop</title>
+  <title>Livraria Web - Rosa Velho & Tons Relaxantes</title>
   <style>
+    /* VARIÁVEIS DE CORES (TEMA PADRÃO: ROSA VELHO) */
+    :root {
+      --bg-color: #F8ECEE;          /* Fundo geral (Rosa Velho Pastel Claro) */
+      --container-bg: #FCF5F6;      /* Fundo da aplicação */
+      --card-bg: #FFFFFF;           /* Fundo dos cartões e caixas */
+      --border-color: #E6C8CE;       /* Bordas delicadas */
+      --primary-color: #C0808A;     /* Tom principal (Rosa Velho) */
+      --primary-hover: #A86B75;     /* Tom ao passar o mouse */
+      --text-main: #4A3B40;         /* Texto principal de leitura suave */
+      --text-muted: #8A7279;        /* Texto secundário */
+      --input-bg: #FAF0F2;          /* Fundo de campos de texto */
+    }
+
+    /* TEMAS SELECIONÁVEIS PELOS BOTÕES REDONDOS */
+    [data-theme="sage"] {
+      --bg-color: #EFF4F1;
+      --container-bg: #F5F8F6;
+      --card-bg: #FFFFFF;
+      --border-color: #C2D4C8;
+      --primary-color: #789984;
+      --primary-hover: #63826E;
+      --text-main: #36423A;
+      --text-muted: #6C8273;
+      --input-bg: #F0F5F2;
+    }
+
+    [data-theme="cream"] {
+      --bg-color: #F8F4EE;
+      --container-bg: #FCFAF6;
+      --card-bg: #FFFFFF;
+      --border-color: #E8DCCB;
+      --primary-color: #B89468;
+      --primary-hover: #9E7B52;
+      --text-main: #42382E;
+      --text-muted: #877462;
+      --input-bg: #FAF6F0;
+    }
+
+    [data-theme="lavender"] {
+      --bg-color: #F0EFF7;
+      --container-bg: #F6F5FB;
+      --card-bg: #FFFFFF;
+      --border-color: #D2CEE6;
+      --primary-color: #8C82B8;
+      --primary-hover: #73699E;
+      --text-main: #39344A;
+      --text-muted: #726A8F;
+      --input-bg: #F2F1F9;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Georgia', serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     body {
-      background-color: #1c1c1c;
-      color: #2C221E;
+      background-color: var(--bg-color);
+      color: var(--text-main);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -22,14 +73,15 @@
       padding: 20px;
     }
 
-    /* Container Desktop (Simula Tela de Computador) */
+    /* Container Desktop */
     .desktop-container {
       width: 100%;
       max-width: 1200px;
       height: 800px;
-      background-color: #FFF3EB;
+      background-color: var(--container-bg);
       border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 15px 35px rgba(138, 114, 121, 0.15);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -38,66 +90,117 @@
 
     /* BARRA SUPERIOR (HEADER) */
     .header {
-      background-color: #FFF3EB;
+      background-color: var(--container-bg);
       padding: 20px 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid #E2D0D0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .header-heart {
-      font-size: 28px;
-      color: #2C221E;
+      font-size: 22px;
+      color: var(--primary-color);
     }
 
     .header-title {
-      font-size: 22px;
-      letter-spacing: 2px;
-      color: #2C221E;
-      font-weight: bold;
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: var(--text-main);
+      font-weight: 700;
     }
 
-    /* MENU DE NAVEGAÇÃO SUPERIOR */
+    /* BOTÕES REDONDOS PARA MUDAR COR */
+    .theme-picker-container {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 6px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      margin-left: 10px;
+    }
+
+    .theme-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .theme-circle:hover {
+      transform: scale(1.2);
+    }
+
+    .theme-circle.active {
+      border-color: var(--text-main);
+      transform: scale(1.1);
+    }
+
+    .theme-rose { background-color: #C0808A; }
+    .theme-sage { background-color: #789984; }
+    .theme-cream { background-color: #B89468; }
+    .theme-lavender { background-color: #8C82B8; }
+
+    /* MENU DE NAVEGAÇÃO */
     .top-nav {
       display: flex;
-      gap: 25px;
+      gap: 12px;
     }
 
     .nav-btn {
       background: none;
-      border: none;
-      font-size: 15px;
-      font-weight: bold;
-      color: #333;
+      border: 1px solid transparent;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 16px;
+      padding: 10px 18px;
       border-radius: 20px;
-      transition: background 0.2s;
     }
 
-    .nav-btn:hover, .nav-btn.active {
-      background-color: #D6C2C2;
+    .nav-btn:hover {
+      background-color: var(--card-bg);
+      color: var(--primary-color);
+    }
+
+    .nav-btn.active {
+      background-color: var(--primary-color);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
 
     .nav-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: none;
-      stroke: #333;
+      stroke: var(--text-muted);
       stroke-width: 2;
     }
 
-    /* ÁREA PRINCIPAL DAS TELAS */
+    .nav-btn.active svg {
+      stroke: #FFFFFF;
+    }
+
+    /* ÁREA PRINCIPAL */
     .content-area {
       flex: 1;
       overflow-y: auto;
@@ -115,86 +218,79 @@
       flex-direction: column;
     }
 
-    /* --- TELAS LOGIN & CADASTRO (DESKTOP) --- */
+    /* LOGIN & CADASTRO */
     #screen-login, #screen-signup {
       justify-content: center;
       align-items: center;
-      background-color: #EBA9A9;
+      background-color: var(--container-bg);
       height: 100%;
     }
 
     .login-box {
-      background-color: #FFD2D2;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
       padding: 40px 50px;
       border-radius: 16px;
       width: 100%;
       max-width: 420px;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.03);
     }
 
     .login-box h2 {
-      font-size: 26px;
+      font-size: 24px;
       margin-bottom: 25px;
-      color: #000;
+      color: var(--text-main);
     }
 
     .login-box input {
       width: 100%;
       padding: 14px;
       margin-bottom: 15px;
-      border: 1px solid #E2D0D0;
-      border-radius: 8px;
-      background: #FFF;
-      font-size: 15px;
-      color: #333;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--input-bg);
+      font-size: 14px;
+      color: var(--text-main);
       outline: none;
+    }
+
+    .login-box input:focus {
+      border-color: var(--primary-color);
     }
 
     .login-btn {
       width: 100%;
       padding: 14px;
-      background-color: #C88A8A;
+      background-color: var(--primary-color);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       color: white;
       font-size: 15px;
       cursor: pointer;
       margin-top: 10px;
       font-weight: bold;
-      transition: opacity 0.2s;
     }
 
-    .login-btn:hover { opacity: 0.9; }
+    .login-btn:hover { background-color: var(--primary-hover); }
 
     .login-footer {
-      font-size: 14px;
+      font-size: 13px;
       margin-top: 20px;
-      color: #000;
+      color: var(--text-muted);
     }
 
     .login-footer span {
-      color: #FF1493;
+      color: var(--primary-color);
       cursor: pointer;
       font-weight: bold;
       text-decoration: underline;
     }
 
-    .error-msg {
-      color: #D8000C;
-      font-size: 13px;
-      margin-top: 10px;
-      display: none;
-    }
+    .error-msg { color: #D9534F; font-size: 13px; margin-top: 10px; display: none; }
+    .success-msg { color: #5CB85C; font-size: 13px; margin-top: 10px; display: none; }
 
-    .success-msg {
-      color: #2e7d32;
-      font-size: 13px;
-      margin-top: 10px;
-      display: none;
-    }
-
-    /* --- HOME: CONTROLES & TÓPICOS --- */
+    /* HOME / CASA */
     .controls-bar {
       display: flex;
       justify-content: space-between;
@@ -203,19 +299,19 @@
     }
 
     .topic-selector-container {
-      width: 300px;
+      width: 280px;
       position: relative;
     }
 
     .topic-select-btn {
       width: 100%;
-      background-color: #D6C2C2;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 12px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 12px 18px;
+      border-radius: 10px;
       font-size: 14px;
-      color: #2C221E;
-      font-weight: bold;
+      color: var(--text-main);
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
@@ -228,28 +324,29 @@
       top: 50px;
       left: 0;
       width: 100%;
-      background-color: #FFF3EB;
-      border: 1px solid #D6C2C2;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
       z-index: 20;
       max-height: 250px;
       overflow-y: auto;
     }
 
     .topic-option {
-      padding: 12px 20px;
+      padding: 12px 18px;
       font-size: 14px;
-      color: #333;
+      color: var(--text-muted);
       cursor: pointer;
-      border-bottom: 1px solid #EFEFEF;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .topic-option:hover {
-      background-color: #D6C2C2;
+      background-color: var(--input-bg);
+      color: var(--primary-color);
     }
 
-    /* --- GRID DE LIVROS (DESKTOP) --- */
+    /* GRID DE LIVROS COM CORES INDIVIDUALIZADAS */
     .book-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -258,20 +355,31 @@
     }
 
     .book-card {
-      background-color: #D6C2C2;
-      border-radius: 20px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
       text-align: center;
-      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Detalhe de cor no topo de cada livro */
+    .book-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background-color: var(--book-accent, var(--primary-color));
     }
 
     .book-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     }
 
     .book-card img {
@@ -280,15 +388,16 @@
       object-fit: cover;
       border-radius: 8px;
       margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
     .book-card p {
       font-size: 14px;
-      color: #333;
+      color: var(--text-main);
       margin-top: 4px;
     }
 
-    /* --- TELA PESQUISA --- */
+    /* PESQUISA */
     .search-container-desktop {
       max-width: 600px;
       margin: 20px auto 40px;
@@ -299,22 +408,24 @@
 
     .search-input-field {
       flex: 1;
-      background-color: #D6C2C2;
-      border: none;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
       padding: 14px 20px;
-      border-radius: 15px;
+      border-radius: 10px;
       outline: none;
-      font-size: 15px;
+      font-size: 14px;
+      color: var(--text-main);
     }
 
     .dropdown-btn {
-      background-color: #D6C2C2;
-      border: none;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
       padding: 14px 20px;
-      border-radius: 15px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
+      color: var(--text-main);
     }
 
     .dropdown-menu {
@@ -322,23 +433,26 @@
       position: absolute;
       top: 55px;
       right: 0;
-      background-color: #EFEFEF;
-      border-radius: 15px;
+      background-color: var(--card-bg);
+      border-radius: 10px;
       width: 180px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       z-index: 10;
       overflow: hidden;
+      border: 1px solid var(--border-color);
     }
 
     .dropdown-menu div {
       padding: 12px 16px;
       font-size: 14px;
+      color: var(--text-muted);
       text-align: center;
       cursor: pointer;
     }
 
     .dropdown-menu div:hover {
-      background-color: #DDD;
+      background-color: var(--input-bg);
+      color: var(--primary-color);
     }
 
     .search-placeholder {
@@ -349,225 +463,359 @@
       margin-top: 60px;
     }
 
-    .search-placeholder span {
-      font-size: 90px;
-      color: #333;
-    }
+    .search-placeholder span { font-size: 70px; color: var(--primary-color); opacity: 0.8; }
+    .search-placeholder p { font-size: 18px; color: var(--text-muted); margin-top: 15px; }
 
-    .search-placeholder p {
-      font-size: 20px;
-      margin-top: 15px;
-    }
-
-    /* --- TELA BIBLIOTECA --- */
+    /* BIBLIOTECA */
     .library-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
     }
 
     .biblio-card {
-      background-color: #D6C2C2;
-      border-radius: 20px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
     }
 
     .biblio-card img {
-      width: 140px;
-      height: 200px;
+      width: 130px;
+      height: 185px;
+      object-fit: cover;
       border-radius: 8px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .biblio-btn {
-      background-color: #E2D0D0;
+      background-color: var(--primary-color);
+      color: #FFF;
       border: none;
-      padding: 10px 20px;
-      border-radius: 12px;
+      padding: 10px 16px;
+      border-radius: 8px;
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
     }
 
-    /* --- TELA CARRINHO --- */
+    .biblio-btn:hover { background-color: var(--primary-hover); }
+
+    /* CARRINHO */
     .cart-layout {
       display: grid;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: 1fr 1.3fr;
       gap: 30px;
     }
 
     .cart-box {
-      background-color: #D6C2C2;
-      border-radius: 15px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
     }
 
-    .cart-box-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
+    .cart-box-title { font-size: 15px; font-weight: 600; margin-bottom: 15px; color: var(--text-main); }
 
     .payment-option {
-      background-color: #A2C8E8;
-      border: 1px solid #7BB3E0;
-      padding: 12px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      padding: 14px 18px;
       margin-bottom: 10px;
-      border-radius: 8px;
-      text-align: center;
+      border-radius: 10px;
       font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    .payment-option.secondary {
-      background-color: #E2D0D0;
-      border: none;
+    .payment-option.selected {
+      background-color: var(--primary-color);
+      color: #FFFFFF;
+      border-color: var(--primary-color);
+    }
+
+    .payment-details-form {
+      margin-top: 10px;
+      padding: 15px;
+      background: var(--input-bg);
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      display: none;
+    }
+
+    .payment-details-form input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: var(--card-bg);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+    }
+
+    .form-row { display: flex; gap: 10px; }
+
+    #cart-items-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-height: 380px;
+      overflow-y: auto;
     }
 
     .cart-item {
-      background-color: #E2D0D0;
-      border-radius: 15px;
-      padding: 20px;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 15px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 15px;
     }
 
-    .cart-item img {
-      width: 100px;
-      height: 140px;
-      border-radius: 8px;
-    }
+    .cart-item img { width: 60px; height: 90px; object-fit: cover; border-radius: 6px; }
 
     .price-row {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
-      background-color: #EFEFEF;
-      padding: 8px 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      margin-top: 15px;
+      background-color: var(--card-bg);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-top: 8px;
     }
+
+    .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 30px; font-size: 14px; }
 
     .buy-action-btn {
       width: 100%;
-      background-color: #8CBA80;
+      background: var(--primary-color);
       border: none;
       padding: 14px;
       border-radius: 10px;
-      font-weight: bold;
+      font-weight: 600;
       font-size: 15px;
-      color: #1C3B12;
-      margin-top: 20px;
+      color: #FFFFFF;
+      margin-top: 15px;
       cursor: pointer;
     }
 
-    /* --- TELA LEITOR --- */
-    #screen-reader {
-      max-width: 700px;
-      margin: 0 auto;
-      background-color: #FFF3EB;
-      font-size: 16px;
-      line-height: 1.8;
+    .buy-action-btn:hover { background-color: var(--primary-hover); }
+
+    .buy-action-btn:disabled {
+      background: var(--border-color);
+      color: var(--text-muted);
+      cursor: not-allowed;
     }
 
-    .reader-arrows {
+    .validation-error { color: #D9534F; font-size: 12px; font-weight: 600; margin-top: 10px; text-align: center; display: none; }
+
+    /* LEITOR DE LIVROS */
+    #screen-reader {
+      max-width: 850px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .reader-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 15px;
+      margin-bottom: 15px;
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      margin-top: 40px;
-      font-size: 30px;
-      color: #F0A8A8;
-      cursor: pointer;
+      align-items: center;
     }
 
-    /* MODAL DESKTOP */
+    .reader-header h2 { font-size: 20px; color: var(--text-main); }
+
+    .bookmark-indicator {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--primary-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .reader-body {
+      flex: 1;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-main);
+      background: var(--input-bg);
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow-y: auto;
+    }
+
+    .reader-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 15px;
+    }
+
+    .reader-nav-btn {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+
+    .reader-nav-btn:hover:not(:disabled) { background-color: var(--input-bg); }
+
+    .reader-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .page-number-display { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+
+    /* MODAIS */
     .modal-overlay {
       display: none;
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(3px);
+      background: rgba(74, 59, 64, 0.4);
+      backdrop-filter: blur(4px);
       justify-content: center;
       align-items: center;
       z-index: 100;
     }
 
     .modal-card {
-      background: #E5E5E5;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
       padding: 30px;
-      border-radius: 20px;
-      width: 380px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border-radius: 16px;
+      width: 480px;
+      max-width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .modal-book-detail { display: flex; gap: 20px; text-align: left; }
+
+    .modal-book-detail img { width: 120px; height: 170px; object-fit: cover; border-radius: 8px; }
+
+    .modal-book-info { flex: 1; display: flex; flex-direction: column; }
+
+    .modal-book-info h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-main); }
+
+    .modal-book-info .author { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+
+    .modal-book-info .synopsis {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-main);
+      margin-bottom: 15px;
+      background: var(--input-bg);
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 110px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
     }
 
     .modal-btn {
       width: 100%;
-      padding: 14px;
-      border-radius: 20px;
+      padding: 12px;
+      border-radius: 8px;
       border: none;
-      margin-top: 12px;
+      margin-top: 10px;
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
     }
 
-    .btn-green { background-color: #B2E39F; color: #1E4612; }
-    .btn-red { background-color: #F09B9B; color: #4A1111; }
+    .btn-green { background-color: var(--primary-color); color: #FFFFFF; }
+    .btn-green:hover { background-color: var(--primary-hover); }
+    .btn-red { background-color: var(--input-bg); color: #D9534F; border: 1px solid var(--border-color); }
+    .btn-secondary { background-color: var(--input-bg); color: var(--text-muted); border: 1px solid var(--border-color); }
   </style>
 </head>
 <body>
 
-  <div class="desktop-container">
+  <div class="desktop-container" id="app-container">
 
     <!-- BARRA SUPERIOR DE NAVEGAÇÃO -->
     <div id="main-header" class="header" style="display: none;">
-      <div class="brand">
-        <span class="header-heart">♡</span>
-        <span class="header-title">LIVRARIA</span>
+      <div class="brand-section">
+        <div class="brand">
+          <span class="header-heart">✦</span>
+          <span class="header-title">LIVRARIA</span>
+        </div>
+
+        <!-- 4 BOTÕES REDONDOS PARA TROCAR COR -->
+        <div class="theme-picker-container">
+          <div class="theme-circle theme-rose active" title="Rosa Velho" onclick="setTheme('rose', this)"></div>
+          <div class="theme-circle theme-sage" title="Verde Sálvia" onclick="setTheme('sage', this)"></div>
+          <div class="theme-circle theme-cream" title="Creme / Bege" onclick="setTheme('cream', this)"></div>
+          <div class="theme-circle theme-lavender" title="Azul Suave" onclick="setTheme('lavender', this)"></div>
+        </div>
       </div>
 
       <div id="top-nav" class="top-nav">
-        <button class="nav-btn active" onclick="navigateTo('screen-home', this)">
+        <button id="nav-screen-home" class="nav-btn active" onclick="navigateTo('screen-home', this)">
           <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>
           Casa
         </button>
 
-        <button class="nav-btn" onclick="navigateTo('screen-library', this)">
+        <button id="nav-screen-library" class="nav-btn" onclick="navigateTo('screen-library', this)">
           <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           Biblioteca
         </button>
 
-        <button class="nav-btn" onclick="navigateTo('screen-search', this)">
+        <button id="nav-screen-search" class="nav-btn" onclick="navigateTo('screen-search', this)">
           <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           Pesquisar
         </button>
 
-        <button class="nav-btn" onclick="navigateTo('screen-cart', this)">
+        <button id="nav-screen-cart" class="nav-btn" onclick="navigateTo('screen-cart', this)">
           <svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
           Compras
         </button>
       </div>
     </div>
 
-    <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
+    <!-- ÁREA DE CONTEÚDO -->
     <div class="content-area">
 
       <!-- TELA LOGIN -->
       <div id="screen-login" class="screen active">
         <div class="login-box">
-          <h2>login in</h2>
-          <input type="text" id="login-email" placeholder="seu-email@gmail.com">
-          <input type="password" id="login-password" placeholder="password">
+          <h2>Acessar Conta</h2>
+          <input type="text" id="login-username" placeholder="Seu usuário">
+          <input type="password" id="login-password" placeholder="Sua senha">
           <button class="login-btn" onclick="handleLogin()">Entrar</button>
-          <p id="login-error-msg" class="error-msg">Apenas contas @gmail.com são permitidas!</p>
+          <p id="login-error-msg" class="error-msg">Informe um usuário válido!</p>
           <p class="login-footer">
-            Ainda não criou sua conta? <span onclick="navigateTo('screen-signup')">Cadastre-se.</span>
+            Ainda não tem conta? <span onclick="navigateTo('screen-signup')">Cadastre-se.</span>
           </p>
         </div>
       </div>
@@ -576,13 +824,13 @@
       <div id="screen-signup" class="screen">
         <div class="login-box">
           <h2>Criar Conta</h2>
-          <input type="email" id="signup-email" placeholder="seu-email@gmail.com">
-          <input type="password" id="signup-password" placeholder="crie sua senha">
+          <input type="text" id="signup-username" placeholder="Crie seu usuário">
+          <input type="password" id="signup-password" placeholder="Crie sua senha">
           <button class="login-btn" onclick="handleSignup()">Cadastrar</button>
-          <p id="signup-error-msg" class="error-msg">Preencha com um e-mail @gmail.com válido!</p>
+          <p id="signup-error-msg" class="error-msg">Preencha os campos corretamente!</p>
           <p id="signup-success-msg" class="success-msg">Conta criada com sucesso!</p>
           <p class="login-footer">
-            Já tem uma conta? <span onclick="navigateTo('screen-login')">Fazer Login.</span>
+            Já possui conta? <span onclick="navigateTo('screen-login')">Fazer Login.</span>
           </p>
         </div>
       </div>
@@ -590,9 +838,8 @@
       <!-- TELA 1: HOME (CASA) -->
       <div id="screen-home" class="screen">
         <div class="controls-bar">
-          <h2 style="font-size: 20px;">Destaques & Recomendados</h2>
+          <h2 style="font-size: 20px; color: var(--text-main);">Destaques & Recomendados</h2>
           
-          <!-- SELETOR DE TÓPICOS -->
           <div class="topic-selector-container">
             <button class="topic-select-btn" onclick="toggleTopicDropdown()">
               <span id="selected-topic-label">Todos os Tópicos</span>
@@ -606,30 +853,20 @@
               <div class="topic-option" onclick="filterBooks('Terror')">Terror</div>
               <div class="topic-option" onclick="filterBooks('Ficção Científica')">Ficção Científica</div>
               <div class="topic-option" onclick="filterBooks('Desenvolvimento Pessoal')">Desenvolvimento Pessoal</div>
-              <div class="topic-option" onclick="filterBooks('Mistério / Thriller')">Mistério / Thriller</div>
-              <div class="topic-option" onclick="filterBooks('Biografia')">Biografia</div>
             </div>
           </div>
         </div>
 
-        <!-- GRID DE LIVROS (DESKTOP) -->
         <div id="book-grid" class="book-grid">
-          <!-- Livros inseridos pelo Javascript -->
+          <!-- Livros inseridos pelo JS com cores individualizadas -->
         </div>
       </div>
 
       <!-- TELA 2: BIBLIOTECA -->
       <div id="screen-library" class="screen">
-        <h2 style="margin-bottom: 25px;">Sua Biblioteca</h2>
-        <div class="library-grid">
-          <div class="biblio-card">
-            <img src="https://m.media-amazon.com/images/I/81T12S2B2ML._AC_UF1000,1000_QL80_.jpg" alt="Minha Culpa">
-            <button class="biblio-btn">Disponível para ler!</button>
-          </div>
-          <div class="biblio-card">
-            <img src="https://m.media-amazon.com/images/I/81x28IqIicL._AC_UF1000,1000_QL80_.jpg" alt="Melhor do que nos filmes">
-            <button class="biblio-btn" onclick="navigateTo('screen-reader')">Continuar Capítulo 11 pág 55</button>
-          </div>
+        <h2 style="margin-bottom: 25px; color: var(--text-main);">Sua Biblioteca de Leitura</h2>
+        <div id="library-grid" class="library-grid">
+          <!-- Livros da biblioteca -->
         </div>
       </div>
 
@@ -637,7 +874,7 @@
       <div id="screen-search" class="screen">
         <div class="search-container-desktop">
           <input type="text" class="search-input-field" placeholder="Pesquisar por título ou autor...">
-          <button class="dropdown-btn" onclick="toggleDropdown()">Classificar por ▾</button>
+          <button class="dropdown-btn" onclick="toggleDropdown()">Gênero ▾</button>
 
           <div id="dropdown-menu" class="dropdown-menu">
             <div>Romance</div>
@@ -649,73 +886,112 @@
         </div>
 
         <div class="search-placeholder">
-          <span>?</span>
-          <p>O que você procura hoje?</p>
+          <span>📖</span>
+          <p>O que você deseja ler hoje?</p>
         </div>
       </div>
 
       <!-- TELA 4: COMPRAS / CARRINHO -->
       <div id="screen-cart" class="screen">
-        <h2 style="margin-bottom: 25px;">Seu Carrinho</h2>
+        <h2 style="margin-bottom: 25px; color: var(--text-main);">Seu Carrinho</h2>
         <div class="cart-layout">
           
           <div class="cart-box">
             <p class="cart-box-title">Forma de pagamento:</p>
-            <div class="payment-option">Pix</div>
-            <div class="payment-option secondary">Cartão de Crédito</div>
-            <div class="payment-option secondary">Cartão de Débito</div>
-            <div class="payment-option secondary">Boleto Bancário</div>
+            
+            <div class="payment-option" onclick="selectPaymentMethod('pix', this)">Pix</div>
+            <div class="payment-option" onclick="selectPaymentMethod('credito', this)">Cartão de Crédito</div>
+            <div class="payment-option" onclick="selectPaymentMethod('debito', this)">Cartão de Débito</div>
+            <div class="payment-option" onclick="selectPaymentMethod('boleto', this)">Boleto Bancário</div>
+
+            <div id="form-pix" class="payment-details-form">
+              <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">CPF do Pagador (Pix):</p>
+              <input type="text" id="pix-cpf" placeholder="000.000.000-00">
+            </div>
+
+            <div id="form-card" class="payment-details-form">
+              <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Dados do Cartão:</p>
+              <input type="text" id="card-number" placeholder="Número do Cartão">
+              <input type="text" id="card-name" placeholder="Nome Impresso">
+              <div class="form-row">
+                <input type="text" id="card-expiry" placeholder="MM/AA">
+                <input type="text" id="card-cvv" placeholder="CVV">
+              </div>
+            </div>
+
+            <div id="form-boleto" class="payment-details-form">
+              <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Dados para o Boleto:</p>
+              <input type="text" id="boleto-name" placeholder="Nome Completo">
+              <input type="text" id="boleto-cpf" placeholder="CPF">
+            </div>
           </div>
 
           <div class="cart-box">
             <p class="cart-box-title">Itens selecionados:</p>
-            <div class="cart-item">
-              <img src="https://m.media-amazon.com/images/I/81T12S2B2ML._AC_UF1000,1000_QL80_.jpg" alt="Minha Culpa">
-              <div>
-                <h3>Minha Culpa</h3>
-                <p style="font-size: 14px; color: #666; margin-top: 4px;">Mercedes Ron</p>
-                <div class="price-row">
-                  <span>Preço: <strong>R$ 29,90</strong></span>
-                  <span style="cursor: pointer; color: red;">Remover ✕</span>
-                </div>
-              </div>
-            </div>
-            <button class="buy-action-btn" onclick="openModal('modal-confirm')">Finalizar Compra</button>
+            <div id="cart-items-container"></div>
+            <p id="validation-error-msg" class="validation-error">Selecione o pagamento e preencha os dados!</p>
+            <button id="checkout-btn" class="buy-action-btn" onclick="validateAndOpenModal()">Finalizar Compra</button>
           </div>
 
         </div>
       </div>
 
-      <!-- TELA 5: LEITOR DE LIVRO -->
+      <!-- TELA LEITOR DE LIVROS -->
       <div id="screen-reader" class="screen">
-        <h2 style="margin-bottom: 15px; text-align: center;">CAPÍTULO 11</h2>
-        <p>O silêncio no carro de Wes era quase ensurdecedor, quebrado apenas pelo som baixo da playlist que ele insistia em programar...</p>
-        <br>
-        <p>— Vais continuar a fingir que eu não existo, Liz?</p>
-        <p>— Estou concentrada na música — respondi, sem me virar.</p>
-        <div style="text-align: right; margin-top: 30px; font-size: 14px;">Página 53</div>
-        <div class="reader-arrows">
-          <span onclick="navigateTo('screen-library')">◄ Voltar</span>
-          <span>Próxima ►</span>
+        <div class="reader-header">
+          <div>
+            <button onclick="navigateTo('screen-library')" style="background: none; border: none; font-size: 13px; cursor: pointer; color: var(--primary-color); margin-bottom: 5px; font-weight: 600;">◄ Voltar para Biblioteca</button>
+            <h2 id="reader-book-title">Título do Livro</h2>
+            <p id="reader-book-author" style="font-size: 13px; color: var(--text-muted);">Autor</p>
+          </div>
+          <div class="bookmark-indicator">
+            🔖 Marcador: Pág. <span id="reader-bookmark-page">1</span>
+          </div>
+        </div>
+
+        <div class="reader-body">
+          <div id="reader-text-content"></div>
+        </div>
+
+        <div class="reader-footer">
+          <button id="btn-prev-page" class="reader-nav-btn" onclick="changeReaderPage(-1)">◄ Anterior</button>
+          <span class="page-number-display">Página <span id="reader-current-page">1</span> de <span id="reader-total-pages">5</span></span>
+          <button id="btn-next-page" class="reader-nav-btn" onclick="changeReaderPage(1)">Próxima ►</button>
         </div>
       </div>
 
     </div>
 
-    <!-- MODAIS DE CONFIRMAÇÃO DO CARRINHO -->
-    <div id="modal-confirm" class="modal-overlay">
+    <!-- MODAL DETALHES -->
+    <div id="modal-book-detail" class="modal-overlay">
       <div class="modal-card">
-        <h3>Confirmar Pedido</h3>
-        <p style="font-size: 14px; margin: 15px 0;">Deseja concluir a compra por R$ 29,90?</p>
-        <button class="modal-btn btn-green" onclick="confirmPurchase()">CONFIRMAR COMPRA</button>
+        <div class="modal-book-detail">
+          <img id="modal-book-img" src="" alt="Capa">
+          <div class="modal-book-info">
+            <h3 id="modal-book-title">Título</h3>
+            <p id="modal-book-author" class="author">Autor</p>
+            <p class="synopsis" id="modal-book-synopsis">Resumo...</p>
+          </div>
+        </div>
+        <button class="modal-btn btn-green" onclick="addToCartAndNavigate()">Adicionar ao Carrinho</button>
+        <button class="modal-btn btn-secondary" onclick="closeModal('modal-book-detail')">Fechar</button>
+      </div>
+    </div>
+
+    <!-- MODAIS DE COMPRA -->
+    <div id="modal-confirm" class="modal-overlay">
+      <div class="modal-card" style="text-align: center;">
+        <h3 style="color: var(--text-main);">Confirmar Pedido</h3>
+        <p style="font-size: 14px; margin: 15px 0; color: var(--text-muted);" id="total-price-label">Deseja concluir a compra?</p>
+        <button class="modal-btn btn-green" onclick="confirmPurchase()">CONFIRMAR</button>
         <button class="modal-btn btn-red" onclick="closeModal('modal-confirm')">CANCELAR</button>
       </div>
     </div>
 
     <div id="modal-success" class="modal-overlay">
-      <div class="modal-card">
-        <div style="background-color: #C1E1B8; padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; color: #1E4612;">
-          Muito obrigado pela compra!<br>Seus livros já estão na sua Biblioteca.
+      <div class="modal-card" style="text-align: center;">
+        <div style="background-color: var(--input-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; color: var(--text-main);">
+          Muito obrigado pela compra! 🌸<br>Seus novos livros já estão na sua Biblioteca.
         </div>
         <button class="modal-btn btn-green" onclick="closeModal('modal-success'); navigateTo('screen-library');">Ir para Biblioteca</button>
       </div>
@@ -725,45 +1001,369 @@
 
   <script>
     const registeredUsers = [];
+    const cartItems = [];
+    let selectedPaymentType = null;
 
+    /* DADOS DOS LIVROS COM CORES EXCLUSIVAS (ACCENT COLOR) */
     const booksData = [
-      { topic: "Romance", title: "Odeio te amar", author: "Ali Hazelwood", img: "https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Romance", title: "Quebrando o gelo", author: "Hannah Grace", img: "https://m.media-amazon.com/images/I/81P5G5a-5dL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Romance", title: "Amor na prática", author: "Sarah Adams", img: "https://m.media-amazon.com/images/I/71A9144C+DL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Romance", title: "A dupla perfeita", author: "Ivy Bailey", img: "https://m.media-amazon.com/images/I/71f65fI4lEL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Fantasia", title: "Corte de Espinhos e Rosas", author: "Sarah J. Maas", img: "https://m.media-amazon.com/images/I/81A-T8L8+9L._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Fantasia", title: "Quarta Asa", author: "Rebecca Yarros", img: "https://m.media-amazon.com/images/I/91n8f+N3oBL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Terror", title: "O Iluminado", author: "Stephen King", img: "https://m.media-amazon.com/images/I/81u2Xq7u6JL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Terror", title: "It: A Coisa", author: "Stephen King", img: "https://m.media-amazon.com/images/I/71-k9fG81ML._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Ficção Científica", title: "Duna", author: "Frank Herbert", img: "https://m.media-amazon.com/images/I/81GE96U9m4L._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Desenvolvimento Pessoal", title: "Hábitos Atômicos", author: "James Clear", img: "https://m.media-amazon.com/images/I/81wgcld4xEL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Mistério / Thriller", title: "A Garota no Trem", author: "Paula Hawkins", img: "https://m.media-amazon.com/images/I/814jJ9vT2XL._AC_UF1000,1000_QL80_.jpg" },
-      { topic: "Biografia", title: "Steve Jobs", author: "Walter Isaacson", img: "https://m.media-amazon.com/images/I/81Vk6I0tU3L._AC_UF1000,1000_QL80_.jpg" }
+      { 
+        id: 0,
+        topic: "Romance", 
+        accent: "#E8A5B0", /* Tom exclusivo para o livro */
+        title: "Melhor do Que Nos Filmes", 
+        author: "Lynn Painter", 
+        price: "39,90",
+        img: "https://covers.openlibrary.org/b/isbn/9786555607284-L.jpg",
+        synopsis: "Liz Buxbaum precisa da ajuda de seu vizinho insuportável, Wes Bennett, para chamar a atenção de seu antigo crush, Michael. Mas ao simularem momentos de romance, Liz descobre que o amor pode ser surpreendente.",
+        pages: [
+          "<strong>Capítulo 1: O Vizinho Insuportável</strong><br><br>Liz Buxbaum sempre viveu rodeada de comédias românticas. Desde pequena, ela acreditava que sua vida teria uma trilha sonora perfeita e um 'felizes para sempre' digno de cinema.",
+          "<strong>Capítulo 1 (Cont.): A Vaga de Estacionamento</strong><br><br>A única coisa no caminho do romance de Liz era Wes Bennett. Wesley, seu vizinho e inimigo mortal desde a infância, parecia existir apenas para irritá-la.",
+          "<strong>Capítulo 2: O Retorno de Michael</strong><br><br>Quando Michael, sua paixão de infância, voltou para a cidade, Liz soube que precisava agir. Mas para se aproximar dele, precisaria do plano mais arriscado de todos: pedir a ajuda de Wes."
+        ]
+      },
+      { 
+        id: 1,
+        topic: "Romance", 
+        accent: "#C3A2C8",
+        title: "Love Hypothesis", 
+        author: "Ali Hazelwood", 
+        price: "29,90",
+        img: "https://covers.openlibrary.org/b/isbn/9780593336823-L.jpg",
+        synopsis: "Uma aluna de doutorado em biologia resolve inventar um namoro de mentira com um professor jovem e ranzinza.",
+        pages: [
+          "<strong>Capítulo 1: O Início do Experimento</strong><br><br>Olive Smith acreditava na ciência acima de tudo, inclusive acima do amor. Para ela, relacionamentos eram reações químicas imprevisíveis.",
+          "<strong>Capítulo 1 (Cont.): O Encontro</strong><br><br>O homem no corredor não era um estudante qualquer. Era o Dr. Adam Carlsen, o professor mais rígido e temido de toda a universidade.",
+          "<strong>Capítulo 2: Termos do Acordo</strong><br><br>'Deixe-me ver se entendi', disse ele, cruzando os braços. 'Você quer que eu finja ser seu namorado em público?'"
+        ]
+      },
+      { 
+        id: 2,
+        topic: "Romance", 
+        accent: "#A2C3C8",
+        title: "Quebrando o Gelo", 
+        author: "Hannah Grace", 
+        price: "34,90",
+        img: "https://covers.openlibrary.org/b/isbn/9781665935418-L.jpg",
+        synopsis: "Uma patinadora artística e o capitão do time de hóquei precisam dividir o mesmo rinque de patinação.",
+        pages: [
+          "<strong>Capítulo 1: Rinque Dividido</strong><br><br>Anastasia Allen dedicara a vida inteira para conseguir uma vaga na equipe de patinação artística.",
+          "<strong>Capítulo 2: O Capitão</strong><br><br>Nathan Hawkins, o capitão do time de hóquei, sempre mantinha a calma. Mas ver Anastasia brava no meio do gelo testava seus limites."
+        ]
+      },
+      { 
+        id: 3,
+        topic: "Fantasia", 
+        accent: "#D4B982",
+        title: "O Mágico de Oz", 
+        author: "L. Frank Baum", 
+        price: "19,90",
+        img: "https://covers.openlibrary.org/b/isbn/9780141321028-L.jpg",
+        synopsis: "Dorothy é levada por um ciclone para a terra de Oz e precisa encontrar o Mágico para voltar para casa.",
+        pages: [
+          "<strong>Capítulo 1: O Ciclone</strong><br><br>Dorothy vivia no meio das grandes pradarias do Kansas com o tio Henry e a tia Em. A casa era pequena e o céu era sempre cinzento.",
+          "<strong>Capítulo 2: A Chegada em Oz</strong><br><br>O vento parou de soprar e a casa pousou suavemente. Dorothy olhou ao redor e viu paisagens maravilhosas, cheias de flores e árvores frutíferas.",
+          "<strong>Capítulo 3: A Estrada de Tijolos Amarelos</strong><br><br>'Para chegar à Cidade das Esmeraldas', disse a boa bruxa, 'você deve seguir a estrada de tijolos amarelos.'"
+        ]
+      },
+      { 
+        id: 4,
+        topic: "Terror", 
+        accent: "#B8918D",
+        title: "O Iluminado", 
+        author: "Stephen King", 
+        price: "42,00",
+        img: "https://covers.openlibrary.org/b/isbn/9780307743657-L.jpg",
+        synopsis: "Jack Torrance aceita o emprego de zelador no Hotel Overlook durante o inverno, mas o local esconde forças terríveis.",
+        pages: [
+          "<strong>Capítulo 1: Entrevista de Emprego</strong><br><br>Jack Torrance achava que aquele emprego era sua última chance de dar uma vida digna para sua família e terminar sua peça de teatro.",
+          "<strong>Capítulo 2: O Hotel Overlook</strong><br><br>O hotel ficava isolado nas montanhas do Colorado. Durante o inverno, a neve cobria todas as estradas, cortando qualquer comunicação com o mundo."
+        ]
+      },
+      { 
+        id: 5,
+        topic: "Ficção Científica", 
+        accent: "#99B2B7",
+        title: "Flores para Algernon", 
+        author: "Daniel Keyes", 
+        price: "32,50",
+        img: "https://covers.openlibrary.org/b/isbn/9780241388501-L.jpg",
+        synopsis: "Um homem com deficiência intelectual passa por uma cirurgia experimental para aumentar seu QI.",
+        pages: [
+          "<strong>Relatório de Progresso 1 - 3 de Março</strong><br><br>Dr Strauss disse que eu devia escrever tudo o que eu penso e me lembro e tudo o que acontece comigo de agora em diante.",
+          "<strong>Relatório de Progresso 2 - 5 de Março</strong><br><br>Fiz um teste hoje com um rato chamado Algernon. Ele teve que correr em um labirinto e venceu todas as vezes."
+        ]
+      },
+      { 
+        id: 6,
+        topic: "Desenvolvimento Pessoal", 
+        accent: "#A7B898",
+        title: "Hábitos Atômicos", 
+        author: "James Clear", 
+        price: "38,00",
+        img: "https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg",
+        synopsis: "Um método fácil e comprovado para criar bons hábitos e se livrar dos maus hábitos.",
+        pages: [
+          "<strong>Capítulo 1: O Poder das Mudanças de 1%</strong><br><br>É muito fácil superestimar a importância de um grande momento e subestimar o valor de fazer pequenas melhorias diárias.",
+          "<strong>Capítulo 2: Como os Hábitos Moldam sua Identidade</strong><br><br>Mudar seus hábitos é um desafio por dois motivos: tentamos mudar a coisa errada e tentamos mudar nossos hábitos da maneira errada."
+        ]
+      }
     ];
 
+    /* BIBLIOTECA INICIAL */
+    const userLibrary = [
+      { bookId: 0, currentPage: 1 },
+      { bookId: 1, currentPage: 1 },
+      { bookId: 3, currentPage: 1 }
+    ];
+
+    let currentReadingBook = null;
+    let selectedBook = null;
+
+    /* ALTERAR TEMA ATRAVÉS DOS BOTÕES REDONDOS */
+    function setTheme(themeName, element) {
+      document.querySelectorAll('.theme-circle').forEach(circle => circle.classList.remove('active'));
+      element.classList.add('active');
+
+      if (themeName === 'rose') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', themeName);
+      }
+    }
+
+    /* NAVEGAÇÃO */
+    function navigateTo(screenId, navBtn = null) {
+      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+
+      const header = document.getElementById('main-header');
+      if (screenId === 'screen-login' || screenId === 'screen-signup') {
+        header.style.display = 'none';
+      } else {
+        header.style.display = 'flex';
+      }
+
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      if (navBtn) {
+        navBtn.classList.add('active');
+      } else {
+        const targetBtn = document.getElementById('nav-' + screenId);
+        if (targetBtn) targetBtn.classList.add('active');
+      }
+
+      if (screenId === 'screen-library') {
+        renderLibrary();
+      }
+    }
+
+    /* CASA / HOME */
     function renderBooks(topic = 'Todos') {
       const grid = document.getElementById('book-grid');
       grid.innerHTML = '';
 
-      const filtered = topic === 'Todos' 
-        ? booksData 
-        : booksData.filter(b => b.topic === topic);
+      const filtered = topic === 'Todos' ? booksData : booksData.filter(b => b.topic === topic);
 
       if(filtered.length === 0) {
-        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; padding: 40px;">Nenhum livro encontrado para este tópico.</p>';
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">Nenhum livro encontrado para este tópico.</p>';
         return;
       }
 
       filtered.forEach(book => {
         const card = document.createElement('div');
         card.className = 'book-card';
+        card.style.setProperty('--book-accent', book.accent);
+        card.onclick = () => showBookDetails(book);
         card.innerHTML = `
-          <img src="${book.img}" alt="${book.title}">
+          <img src="${book.img}" alt="${book.title}" loading="lazy">
           <p><strong>${book.title}</strong></p>
-          <p>${book.author}</p>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">${book.author}</p>
         `;
         grid.appendChild(card);
       });
+    }
+
+    /* BIBLIOTECA */
+    function renderLibrary() {
+      const grid = document.getElementById('library-grid');
+      grid.innerHTML = '';
+
+      if (userLibrary.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">Sua biblioteca está vazia.</p>';
+        return;
+      }
+
+      userLibrary.forEach(item => {
+        const book = booksData.find(b => b.id === item.bookId);
+        if (book) {
+          const card = document.createElement('div');
+          card.className = 'biblio-card';
+          card.innerHTML = `
+            <img src="${book.img}" alt="${book.title}">
+            <p style="font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--text-main);">${book.title}</p>
+            <p style="font-size: 12px; color: var(--text-muted);">Página atual: <strong>${item.currentPage}</strong></p>
+            <button class="biblio-btn" onclick="openBookReader(${book.id})">Ler Livro 📖</button>
+          `;
+          grid.appendChild(card);
+        }
+      });
+    }
+
+    /* LEITOR DE LIVROS */
+    function openBookReader(bookId) {
+      const book = booksData.find(b => b.id === bookId);
+      let userBookState = userLibrary.find(u => u.bookId === bookId);
+
+      if (!userBookState) {
+        userBookState = { bookId: bookId, currentPage: 1 };
+        userLibrary.push(userBookState);
+      }
+
+      currentReadingBook = { data: book, userState: userBookState };
+
+      updateReaderView();
+      navigateTo('screen-reader');
+    }
+
+    function updateReaderView() {
+      const book = currentReadingBook.data;
+      const currentPage = currentReadingBook.userState.currentPage;
+      const totalPages = book.pages.length;
+
+      document.getElementById('reader-book-title').innerText = book.title;
+      document.getElementById('reader-book-author').innerText = book.author;
+      document.getElementById('reader-bookmark-page').innerText = currentPage;
+      document.getElementById('reader-current-page').innerText = currentPage;
+      document.getElementById('reader-total-pages').innerText = totalPages;
+
+      document.getElementById('reader-text-content').innerHTML = book.pages[currentPage - 1] || "Página em branco.";
+
+      document.getElementById('btn-prev-page').disabled = currentPage <= 1;
+      document.getElementById('btn-next-page').disabled = currentPage >= totalPages;
+    }
+
+    function changeReaderPage(delta) {
+      const newPage = currentReadingBook.userState.currentPage + delta;
+      const totalPages = currentReadingBook.data.pages.length;
+
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentReadingBook.userState.currentPage = newPage;
+        updateReaderView();
+      }
+    }
+
+    /* MODAL DE DETALHES */
+    function showBookDetails(book) {
+      selectedBook = book;
+      document.getElementById('modal-book-img').src = book.img;
+      document.getElementById('modal-book-title').innerText = book.title;
+      document.getElementById('modal-book-author').innerText = book.author;
+      document.getElementById('modal-book-synopsis').innerText = book.synopsis;
+      openModal('modal-book-detail');
+    }
+
+    function addToCartAndNavigate() {
+      if (selectedBook) {
+        cartItems.push(selectedBook);
+        renderCart();
+      }
+      closeModal('modal-book-detail');
+      navigateTo('screen-cart');
+    }
+
+    function removeFromCart(index) {
+      cartItems.splice(index, 1);
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartContainer = document.getElementById('cart-items-container');
+      const checkoutBtn = document.getElementById('checkout-btn');
+      cartContainer.innerHTML = '';
+
+      if (cartItems.length === 0) {
+        cartContainer.innerHTML = '<div class="empty-cart-msg">Seu carrinho está vazio.<br>Escolha um livro na aba Casa!</div>';
+        checkoutBtn.disabled = true;
+        document.getElementById('total-price-label').innerText = 'Deseja concluir a compra?';
+        return;
+      }
+
+      checkoutBtn.disabled = false;
+      let total = 0;
+
+      cartItems.forEach((item, index) => {
+        total += parseFloat(item.price.replace(',', '.'));
+        const itemElement = document.createElement('div');
+        itemElement.className = 'cart-item';
+        itemElement.innerHTML = `
+          <img src="${item.img}" alt="${item.title}">
+          <div style="flex: 1;">
+            <h3 style="font-size: 14px; color: var(--text-main);">${item.title}</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">${item.author}</p>
+            <div class="price-row">
+              <span style="color: var(--text-muted);">Preço: <strong style="color: var(--text-main);">R$ ${item.price}</strong></span>
+              <span style="cursor: pointer; color: #D9534F; margin-left: auto; font-weight: 600;" onclick="removeFromCart(${index})">Remover ✕</span>
+            </div>
+          </div>
+        `;
+        cartContainer.appendChild(itemElement);
+      });
+
+      document.getElementById('total-price-label').innerText = `Deseja concluir a compra por R$ ${total.toFixed(2).replace('.', ',')}?`;
+    }
+
+    /* PAGAMENTO E AUXILIARES */
+    function selectPaymentMethod(type, element) {
+      selectedPaymentType = type;
+      document.getElementById('validation-error-msg').style.display = 'none';
+      document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+      element.classList.add('selected');
+
+      document.querySelectorAll('.payment-details-form').forEach(f => f.style.display = 'none');
+
+      if (type === 'pix') {
+        document.getElementById('form-pix').style.display = 'block';
+      } else if (type === 'credito' || type === 'debito') {
+        document.getElementById('form-card').style.display = 'block';
+      } else if (type === 'boleto') {
+        document.getElementById('form-boleto').style.display = 'block';
+      }
+    }
+
+    function validateAndOpenModal() {
+      const errorMsg = document.getElementById('validation-error-msg');
+
+      if (!selectedPaymentType) {
+        errorMsg.innerText = 'Por favor, selecione uma forma de pagamento!';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      let isValid = false;
+
+      if (selectedPaymentType === 'pix') {
+        const cpf = document.getElementById('pix-cpf').value.trim();
+        isValid = cpf.length >= 11;
+      } else if (selectedPaymentType === 'credito' || selectedPaymentType === 'debito') {
+        const num = document.getElementById('card-number').value.trim();
+        const name = document.getElementById('card-name').value.trim();
+        const expiry = document.getElementById('card-expiry').value.trim();
+        const cvv = document.getElementById('card-cvv').value.trim();
+        isValid = num.length >= 12 && name !== '' && expiry !== '' && cvv.length >= 3;
+      } else if (selectedPaymentType === 'boleto') {
+        const name = document.getElementById('boleto-name').value.trim();
+        const cpf = document.getElementById('boleto-cpf').value.trim();
+        isValid = name !== '' && cpf.length >= 11;
+      }
+
+      if (!isValid) {
+        errorMsg.innerText = 'Preencha corretamente os dados de pagamento para prosseguir!';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      errorMsg.style.display = 'none';
+      openModal('modal-confirm');
     }
 
     function toggleTopicDropdown() {
@@ -777,37 +1377,25 @@
       renderBooks(topic);
     }
 
-    function isGmail(email) {
-      return email.toLowerCase().endsWith('@gmail.com') && email.length > 10;
-    }
-
     function handleSignup() {
-      const email = document.getElementById('signup-email').value.trim();
+      const username = document.getElementById('signup-username').value.trim();
       const password = document.getElementById('signup-password').value.trim();
       const errorMsg = document.getElementById('signup-error-msg');
       const successMsg = document.getElementById('signup-success-msg');
 
-      if (!email || !password) {
+      if (!username || !password) {
         errorMsg.innerText = 'Preencha todos os campos!';
         errorMsg.style.display = 'block';
         successMsg.style.display = 'none';
         return;
       }
 
-      if (!isGmail(email)) {
-        errorMsg.innerText = 'O e-mail precisa ter o final @gmail.com';
-        errorMsg.style.display = 'block';
-        successMsg.style.display = 'none';
-        return;
-      }
-
-      registeredUsers.push({ email, password });
-
+      registeredUsers.push({ username, password });
       errorMsg.style.display = 'none';
       successMsg.style.display = 'block';
 
       setTimeout(() => {
-        document.getElementById('signup-email').value = '';
+        document.getElementById('signup-username').value = '';
         document.getElementById('signup-password').value = '';
         successMsg.style.display = 'none';
         navigateTo('screen-login');
@@ -815,47 +1403,26 @@
     }
 
     function handleLogin() {
-      const email = document.getElementById('login-email').value.trim();
+      const username = document.getElementById('login-username').value.trim();
       const password = document.getElementById('login-password').value.trim();
       const errorMsg = document.getElementById('login-error-msg');
 
-      if (!isGmail(email)) {
-        errorMsg.innerText = 'Apenas e-mails do Gmail (@gmail.com) são aceitos!';
+      if (!username || !password) {
+        errorMsg.innerText = 'Informe usuário e senha!';
         errorMsg.style.display = 'block';
         return;
       }
 
       const userFound = registeredUsers.find(
-        u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+        u => u.username.toLowerCase() === username.toLowerCase() && u.password === password
       );
 
       if (userFound) {
         errorMsg.style.display = 'none';
         navigateTo('screen-home');
       } else {
-        errorMsg.innerText = 'Conta não encontrada ou senha incorreta!';
+        errorMsg.innerText = 'Usuário não encontrado ou senha incorreta!';
         errorMsg.style.display = 'block';
-      }
-    }
-
-    function navigateTo(screenId, navBtn = null) {
-      document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-      });
-
-      document.getElementById(screenId).classList.add('active');
-
-      const header = document.getElementById('main-header');
-
-      if (screenId === 'screen-login' || screenId === 'screen-signup') {
-        header.style.display = 'none';
-      } else {
-        header.style.display = 'flex';
-      }
-
-      if (navBtn) {
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        navBtn.classList.add('active');
       }
     }
 
@@ -873,11 +1440,21 @@
     }
 
     function confirmPurchase() {
+      cartItems.forEach(item => {
+        const alreadyInLib = userLibrary.find(u => u.bookId === item.id);
+        if (!alreadyInLib) {
+          userLibrary.push({ bookId: item.id, currentPage: 1 });
+        }
+      });
+
+      cartItems.length = 0;
+      renderCart();
       closeModal('modal-confirm');
       openModal('modal-success');
     }
 
     renderBooks('Todos');
+    renderCart();
   </script>
 
 </body>
