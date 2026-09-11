@@ -1,33 +1,251 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livraria - Entrar / Cadastrar</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Livraria Web - Rosa Velho & Tons Relaxantes</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <main class="conteudo-principal">
-    <div id="tela-cadastro" class="container-formulario">
-        <div class="caixa-intera">
-            <h2 class="welcome-text">BEM-VINDO À LIVRARIA</h2>
-            <h1 class="titulo-formulario">Cadastre-se<h1>
-            
-            <form class="login-form">
-                <div class="input-group">
-                    <input type="email" placeholder="email" required>
-                </div>
-                <div class="input-group password-group">
-                    <input type="password" placeholder="password" required>
-                    <span class="toggle-password">👁️</span>
-                </div>
-                
-                <p class="signup-text">
-                    Ainda não criou sua conta? <a href="#" class="signup-link">Cadastre-se</a>
-                </p>
-            </form>
+
+  <div class="desktop-container" id="app-container">
+
+    <!-- BARRA SUPERIOR DE NAVEGAÇÃO -->
+    <div id="main-header" class="header" style="display: none;">
+      <div class="brand-section">
+        <div class="brand">
+          <span class="header-heart">✦</span>
+          <span class="header-title">LIVRARIA</span>
         </div>
+
+        <!-- 4 BOTÕES REDONDOS PARA TROCAR COR -->
+        <div class="theme-picker-container">
+          <div class="theme-circle theme-rose active" title="Rosa Velho" onclick="setTheme('rose', this)"></div>
+          <div class="theme-circle theme-sage" title="Verde Sálvia" onclick="setTheme('sage', this)"></div>
+          <div class="theme-circle theme-cream" title="Creme / Bege" onclick="setTheme('cream', this)"></div>
+          <div class="theme-circle theme-lavender" title="Azul Suave" onclick="setTheme('lavender', this)"></div>
+        </div>
+      </div>
+
+      <div id="top-nav" class="top-nav">
+        <button id="nav-screen-home" class="nav-btn active" onclick="navigateTo('screen-home', this)">
+          <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>
+          Casa
+        </button>
+
+        <button id="nav-screen-library" class="nav-btn" onclick="navigateTo('screen-library', this)">
+          <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          Biblioteca
+        </button>
+
+        <button id="nav-screen-search" class="nav-btn" onclick="navigateTo('screen-search', this)">
+          <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          Pesquisar
+        </button>
+
+        <button id="nav-screen-cart" class="nav-btn" onclick="navigateTo('screen-cart', this)">
+          <svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+          Compras
+        </button>
+      </div>
     </div>
-     
+
+    <!-- ÁREA DE CONTEÚDO -->
+    <div class="content-area">
+
+      <!-- TELA LOGIN -->
+      <div id="screen-login" class="screen active">
+        <div class="login-box">
+          <h2>Acessar Conta</h2>
+          <input type="text" id="login-username" placeholder="Seu usuário">
+          <input type="password" id="login-password" placeholder="Sua senha">
+          <button class="login-btn" onclick="handleLogin()">Entrar</button>
+          <p id="login-error-msg" class="error-msg">Informe um usuário válido!</p>
+          <p class="login-footer">
+            Ainda não tem conta? <span onclick="navigateTo('screen-signup')">Cadastre-se.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- TELA DE CADASTRO -->
+      <div id="screen-signup" class="screen">
+        <div class="login-box">
+          <h2>Criar Conta</h2>
+          <input type="text" id="signup-username" placeholder="Crie seu usuário">
+          <input type="password" id="signup-password" placeholder="Crie sua senha">
+          <button class="login-btn" onclick="handleSignup()">Cadastrar</button>
+          <p id="signup-error-msg" class="error-msg">Preencha os campos corretamente!</p>
+          <p id="signup-success-msg" class="success-msg">Conta criada com sucesso!</p>
+          <p class="login-footer">
+            Já possui conta? <span onclick="navigateTo('screen-login')">Fazer Login.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- TELA 1: HOME (CASA) -->
+      <div id="screen-home" class="screen">
+        <div class="controls-bar">
+          <h2 style="font-size: 20px; color: var(--text-main);">Destaques & Recomendados</h2>
+          
+          <div class="topic-selector-container">
+            <button class="topic-select-btn" onclick="toggleTopicDropdown()">
+              <span id="selected-topic-label">Todos os Tópicos</span>
+              <span>▾</span>
+            </button>
+
+            <div id="topic-dropdown-menu" class="topic-dropdown-menu">
+              <div class="topic-option" onclick="filterBooks('Todos')">Todos os Tópicos</div>
+              <div class="topic-option" onclick="filterBooks('Romance')">Romance</div>
+              <div class="topic-option" onclick="filterBooks('Fantasia')">Fantasia</div>
+              <div class="topic-option" onclick="filterBooks('Terror')">Terror</div>
+              <div class="topic-option" onclick="filterBooks('Ficção Científica')">Ficção Científica</div>
+              <div class="topic-option" onclick="filterBooks('Desenvolvimento Pessoal')">Desenvolvimento Pessoal</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="book-grid" class="book-grid">
+          <!-- Livros inseridos pelo JS -->
+        </div>
+      </div>
+
+      <!-- TELA 2: BIBLIOTECA -->
+      <div id="screen-library" class="screen">
+        <h2 style="margin-bottom: 25px; color: var(--text-main);">Sua Biblioteca de Leitura</h2>
+        <div id="library-grid" class="library-grid">
+          <!-- Livros da biblioteca -->
+        </div>
+      </div>
+
+      <!-- TELA 3: PESQUISAR -->
+      <div id="screen-search" class="screen">
+        <div class="search-container-desktop">
+          <input type="text" class="search-input-field" placeholder="Pesquisar por título ou autor...">
+          <button class="dropdown-btn" onclick="toggleDropdown()">Gênero ▾</button>
+
+          <div id="dropdown-menu" class="dropdown-menu">
+            <div>Romance</div>
+            <div>Fantasia</div>
+            <div>Terror</div>
+            <div>Ficção Científica</div>
+            <div>Drama</div>
+          </div>
+        </div>
+
+        <div class="search-placeholder">
+          <span>📖</span>
+          <p>O que você deseja ler hoje?</p>
+        </div>
+      </div>
+
+      <!-- TELA 4: COMPRAS / CARRINHO -->
+      <div id="screen-cart" class="screen">
+        <h2 style="margin-bottom: 25px; color: var(--text-main);">Seu Carrinho</h2>
+        <div class="cart-layout">
+          
+          <div class="cart-box">
+            <p class="cart-box-title">Forma de pagamento:</p>
+            
+            <div class="payment-option" onclick="selectPaymentMethod('pix', this)">Pix</div>
+            <div class="payment-option" onclick="selectPaymentMethod('credito', this)">Cartão de Crédito</div>
+            <div class="payment-option" onclick="selectPaymentMethod('debito', this)">Cartão de Débito</div>
+            <div class="payment-option" onclick="selectPaymentMethod('boleto', this)">Boleto Bancário</div>
+
+            <div id="form-pix" class="payment-details-form">
+              <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">CPF do Pagador (Pix):</p>
+              <input type="text" id="pix-cpf" placeholder="000.000.000-00">
+            </div>
+
+            <div id="form-card" class="payment-details-form">
+              <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Dados do Cartão:</p>
+              <input type="text" id="card-number" placeholder="Número do Cartão">
+              <input type="text" id="card-name" placeholder="Nome Impresso">
+              <div class="form-row">
+                <input type="text" id="card-expiry" placeholder="MM/AA">
+                <input type="text" id="card-cvv" placeholder="CVV">
+              </div>
+            </div>
+
+            <div id="form-boleto" class="payment-details-form">
+              <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Dados para o Boleto:</p>
+              <input type="text" id="boleto-name" placeholder="Nome Completo">
+              <input type="text" id="boleto-cpf" placeholder="CPF">
+            </div>
+          </div>
+
+          <div class="cart-box">
+            <p class="cart-box-title">Itens selecionados:</p>
+            <div id="cart-items-container"></div>
+            <p id="validation-error-msg" class="validation-error">Selecione o pagamento e preencha os dados!</p>
+            <button id="checkout-btn" class="buy-action-btn" onclick="validateAndOpenModal()">Finalizar Compra</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TELA LEITOR DE LIVROS -->
+      <div id="screen-reader" class="screen">
+        <div class="reader-header">
+          <div>
+            <button onclick="navigateTo('screen-library')" style="background: none; border: none; font-size: 13px; cursor: pointer; color: var(--primary-color); margin-bottom: 5px; font-weight: 600;">◄ Voltar para Biblioteca</button>
+            <h2 id="reader-book-title">Título do Livro</h2>
+            <p id="reader-book-author" style="font-size: 13px; color: var(--text-muted);">Autor</p>
+          </div>
+          <div class="bookmark-indicator">
+            🔖 Marcador: Pág. <span id="reader-bookmark-page">1</span>
+          </div>
+        </div>
+
+        <div class="reader-body">
+          <div id="reader-text-content"></div>
+        </div>
+
+        <div class="reader-footer">
+          <button id="btn-prev-page" class="reader-nav-btn" onclick="changeReaderPage(-1)">◄ Anterior</button>
+          <span class="page-number-display">Página <span id="reader-current-page">1</span> de <span id="reader-total-pages">5</span></span>
+          <button id="btn-next-page" class="reader-nav-btn" onclick="changeReaderPage(1)">Próxima ►</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MODAL DETALHES -->
+    <div id="modal-book-detail" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-book-detail">
+          <img id="modal-book-img" src="" alt="Capa">
+          <div class="modal-book-info">
+            <h3 id="modal-book-title">Título</h3>
+            <p id="modal-book-author" class="author">Autor</p>
+            <p class="synopsis" id="modal-book-synopsis">Resumo...</p>
+          </div>
+        </div>
+        <button class="modal-btn btn-green" onclick="addToCartAndNavigate()">Adicionar ao Carrinho</button>
+        <button class="modal-btn btn-secondary" onclick="closeModal('modal-book-detail')">Fechar</button>
+      </div>
+    </div>
+
+    <!-- MODAIS DE COMPRA -->
+    <div id="modal-confirm" class="modal-overlay">
+      <div class="modal-card" style="text-align: center;">
+        <h3 style="color: var(--text-main);">Confirmar Pedido</h3>
+        <p style="font-size: 14px; margin: 15px 0; color: var(--text-muted);" id="total-price-label">Deseja concluir a compra?</p>
+        <button class="modal-btn btn-green" onclick="confirmPurchase()">CONFIRMAR</button>
+        <button class="modal-btn btn-red" onclick="closeModal('modal-confirm')">CANCELAR</button>
+      </div>
+    </div>
+
+    <div id="modal-success" class="modal-overlay">
+      <div class="modal-card" style="text-align: center;">
+        <div style="background-color: var(--input-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; color: var(--text-main);">
+          Muito obrigado pela compra! 🌸<br>Seus novos livros já estão na sua Biblioteca.
+        </div>
+        <button class="modal-btn btn-green" onclick="closeModal('modal-success'); navigateTo('screen-library');">Ir para Biblioteca</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
