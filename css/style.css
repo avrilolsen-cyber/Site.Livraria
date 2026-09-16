@@ -1,17 +1,16 @@
-/* VARIÁVEIS DE CORES (TEMA PADRÃO: ROSA VELHO) */
+/* VARIÁVEIS DE CORES */
 :root {
-    --bg-color: #F8ECEE;          /* Fundo geral */
-    --container-bg: #FCF5F6;      /* Fundo da aplicação */
-    --card-bg: #FFFFFF;           /* Fundo dos cartões e caixas */
-    --border-color: #E6C8CE;       /* Bordas delicadas */
-    --primary-color: #C0808A;     /* Tom principal (Rosa Velho) */
-    --primary-hover: #A86B75;     /* Tom ao passar o mouse */
-    --text-main: #4A3B40;         /* Texto principal */
-    --text-muted: #8A7279;        /* Texto secundário */
-    --input-bg: #FAF0F2;          /* Fundo de campos de texto */
+    --bg-color: #F8ECEE;
+    --container-bg: #FCF5F6;
+    --card-bg: #FFFFFF;
+    --border-color: #E6C8CE;
+    --primary-color: #C0808A;
+    --primary-hover: #A86B75;
+    --text-main: #4A3B40;
+    --text-muted: #8A7279;
+    --input-bg: #FAF0F2;
   }
   
-  /* TEMAS SELECIONÁVEIS PELOS BOTÕES REDONDOS */
   [data-theme="sage"] {
     --bg-color: #EFF4F1;
     --container-bg: #F5F8F6;
@@ -70,7 +69,7 @@
   .desktop-container {
     width: 100%;
     max-width: 1200px;
-    height: 800px;
+    height: 850px;
     background-color: var(--container-bg);
     border-radius: 20px;
     border: 1px solid var(--border-color);
@@ -81,7 +80,7 @@
     position: relative;
   }
   
-  /* BARRA SUPERIOR (HEADER) */
+  /* BARRA SUPERIOR */
   .header {
     background-color: var(--container-bg);
     padding: 20px 40px;
@@ -115,7 +114,6 @@
     font-weight: 700;
   }
   
-  /* BOTÕES REDONDOS PARA MUDAR COR */
   .theme-picker-container {
     display: flex;
     gap: 8px;
@@ -136,21 +134,14 @@
     transition: transform 0.2s, border-color 0.2s;
   }
   
-  .theme-circle:hover {
-    transform: scale(1.2);
-  }
-  
-  .theme-circle.active {
-    border-color: var(--text-main);
-    transform: scale(1.1);
-  }
+  .theme-circle:hover { transform: scale(1.2); }
+  .theme-circle.active { border-color: var(--text-main); transform: scale(1.1); }
   
   .theme-rose { background-color: #C0808A; }
   .theme-sage { background-color: #789984; }
   .theme-cream { background-color: #B89468; }
   .theme-lavender { background-color: #8C82B8; }
   
-  /* MENU DE NAVEGAÇÃO */
   .top-nav {
     display: flex;
     gap: 12px;
@@ -189,9 +180,7 @@
     stroke-width: 2;
   }
   
-  .nav-btn.active svg {
-    stroke: #FFFFFF;
-  }
+  .nav-btn.active svg { stroke: #FFFFFF; }
   
   /* ÁREA PRINCIPAL */
   .content-area {
@@ -201,13 +190,14 @@
     position: relative;
   }
   
+  /* REGRA DE EXIBIÇÃO RIGOROSA DAS TELAS */
   .screen {
-    display: none;
+    display: none !important;
     height: 100%;
   }
   
   .screen.active {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
   }
   
@@ -216,7 +206,6 @@
     justify-content: center;
     align-items: center;
     background-color: var(--container-bg);
-    height: 100%;
   }
   
   .login-box {
@@ -248,9 +237,7 @@
     outline: none;
   }
   
-  .login-box input:focus {
-    border-color: var(--primary-color);
-  }
+  .login-box input:focus { border-color: var(--primary-color); }
   
   .login-btn {
     width: 100%;
@@ -339,7 +326,7 @@
     color: var(--primary-color);
   }
   
-  /* GRID DE LIVROS COM CORES INDIVIDUALIZADAS */
+  /* GRID DE LIVROS */
   .book-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -361,7 +348,6 @@
     overflow: hidden;
   }
   
-  /* Detalhe de cor no topo de cada livro */
   .book-card::before {
     content: '';
     position: absolute;
@@ -618,16 +604,13 @@
   
   .validation-error { color: #D9534F; font-size: 12px; font-weight: 600; margin-top: 10px; text-align: center; display: none; }
   
-  /* LEITOR DE LIVROS */
+  /* LEITOR DE LIVROS (Específico) */
   #screen-reader {
     max-width: 850px;
     margin: 0 auto;
     background-color: var(--card-bg);
     border-radius: 16px;
-    display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    height: 100%;
     padding: 20px;
     border: 1px solid var(--border-color);
   }
@@ -663,6 +646,7 @@
     border-radius: 12px;
     border: 1px solid var(--border-color);
     overflow-y: auto;
+    min-height: 350px;
   }
   
   .reader-footer {
@@ -685,7 +669,6 @@
   }
   
   .reader-nav-btn:hover:not(:disabled) { background-color: var(--input-bg); }
-  
   .reader-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
   
   .page-number-display { font-size: 13px; font-weight: 600; color: var(--text-muted); }
@@ -713,13 +696,10 @@
   }
   
   .modal-book-detail { display: flex; gap: 20px; text-align: left; }
-  
   .modal-book-detail img { width: 120px; height: 170px; object-fit: cover; border-radius: 8px; }
   
   .modal-book-info { flex: 1; display: flex; flex-direction: column; }
-  
   .modal-book-info h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-main); }
-  
   .modal-book-info .author { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
   
   .modal-book-info .synopsis {

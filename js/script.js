@@ -1,14 +1,19 @@
-
+// DADOS DO SISTEMA
 const registeredUsers = [];
 const cartItems = [];
-let selectedPaymentType = null;
+const libraryItems = [];
 
-/* DADOS DOS LIVROS COM CORES EXCLUSIVAS (ACCENT COLOR) */
+let selectedPaymentType = null;
+let currentSelectedBook = null;
+let activeReadingBook = null;
+let currentReadingPage = 0;
+
+/* BASE DE DADOS DOS LIVROS */
 const booksData = [
   { 
     id: 0,
     topic: "Romance", 
-    accent: "#E8A5B0",
+    accent: "#E8A5B0", 
     title: "Melhor do Que Nos Filmes", 
     author: "Lynn Painter", 
     price: "39,90",
@@ -23,122 +28,109 @@ const booksData = [
   { 
     id: 1,
     topic: "Romance", 
-    accent: "#C3A2C8",
+    accent: "#C3A2C8", 
     title: "Love Hypothesis", 
     author: "Ali Hazelwood", 
     price: "29,90",
     img: "https://covers.openlibrary.org/b/isbn/9780593336823-L.jpg",
     synopsis: "Uma aluna de doutorado em biologia resolve inventar um namoro de mentira com um professor jovem e ranzinza.",
     pages: [
-      "<strong>Capítulo 1: O Experimento</strong><br><br>Olive Smith, doutoranda em Biologia, não acreditava em relacionamentos duradouros. Mas para convencer sua melhor amiga de que estava feliz, ela resolve beijar o primeiro homem que encontra no corredor.",
-      "<strong>Capítulo 1 (Cont.): O Beijo Inesperado</strong><br><br>Para sua surpresa, o homem era Adam Carlsen — o jovem e temido professor da universidade. Surpreendentemente, ele concorda em manter a farsa de um namoro de mentira.",
-      "<strong>Capítulo 2: Hipótese Confirmada?</strong><br><br>Conforme encontros falsos em cafeterias acontecem, Olive percebe que a verdadeira ciência do amor é muito mais complexa e imprevisível do que qualquer equação em seu laboratório."
+      "<strong>Capítulo 1: O Laboratório</strong><br><br>Olive Smith acreditava em ciência, não em relacionamentos duradouros e contos de fadas.",
+      "<strong>Capítulo 2: O Beijo Inesperado</strong><br><br>Para convencer sua melhor amiga de que estava namorando, Olive beija o primeiro homem que vê no corredor: o temido Dr. Adam Carlsen."
     ]
   },
   { 
     id: 2,
     topic: "Fantasia", 
-    accent: "#81B29A",
+    accent: "#8FA3C9", 
     title: "O Nome do Vento", 
     author: "Patrick Rothfuss", 
     price: "49,90",
-    img: "https://covers.openlibrary.org/b/isbn/9788580410051-L.jpg",
-    synopsis: "A jornada lendária de Kvothe, um jovem com talentos mágicos extraordinários que se torna o mago mais poderoso e temido do mundo.",
+    img: "https://covers.openlibrary.org/b/isbn/9788599296493-L.jpg",
+    synopsis: "A história de Kvothe, um jovem prodígio que se torna o mago mais notório que o mundo já viu.",
     pages: [
-      "<strong>Capítulo 1: Um Silêncio de Três Partes</strong><br><br>A hospedaria Marco da Pedra estava em silêncio. Era um silêncio em três partes. A parte mais óbvia era uma quietude profunda e soturna, feita de coisas que faltavam.",
-      "<strong>Capítulo 2: A Infância com a Troup</strong><br><br>Meu nome é Kvothe. Fui criado na trupe de artistas mambembes do meu pai. Aprendi a tocar alaúde antes de caminhar e a atuar antes de ler.",
-      "<strong>Capítulo 3: A Universidade</strong><br><br>A magia não é como nos contos de fadas. Ela exige mente afiada, concentração extrema e o conhecimento dos nomes verdadeiros de todas as coisas."
+      "<strong>Prológio: Um Silêncio de Três Partes</strong><br><br>Era noite na Hospedaria Marco da Pedra, e o silêncio pertencia a três partes.",
+      "<strong>Capítulo 1: Lições de Música e Magia</strong><br><br>Viajando com os Edema Ruh, Kvothe aprendeu as primeiras artes da simpatia com o velho Abenthy."
     ]
   },
   { 
     id: 3,
     topic: "Terror", 
-    accent: "#9D8189",
+    accent: "#A87C80", 
     title: "O Iluminado", 
     author: "Stephen King", 
-    price: "44,90",
+    price: "45,00",
     img: "https://covers.openlibrary.org/b/isbn/9788532503251-L.jpg",
-    synopsis: "Jack Torrance aceita o emprego de zelador no isolado Hotel Overlook durante o inverno, mas forças sombrias começam a influenciar sua mente.",
+    synopsis: "Jack Torrance aceita o emprego de zelador no Hotel Overlook durante o inverno, mas o local guarda forças sinistras.",
     pages: [
-      "<strong>Capítulo 1: A Entrevista</strong><br><br>Jack Torrance achava que o Hotel Overlook era sua última chance de recomeçar a vida e unir novamente sua família após os erros do passado.",
-      "<strong>Capítulo 2: O Hotel Isolado</strong><br><br>A neve começou a cair fortemente, bloqueando todas as estradas das montanhas. O Overlook agora estava completamente isolado do resto do mundo.",
-      "<strong>Capítulo 3: Sussurros nos Corredores</strong><br><br>O pequeno Danny sentia que o hotel guardava memórias terríveis. E que essas memórias ganhavam vida quando as luzes se apagavam."
-    ]
-  },
-  { 
-    id: 4,
-    topic: "Ficção Científica", 
-    accent: "#8D99AE",
-    title: "Duna", 
-    author: "Frank Herbert", 
-    price: "59,90",
-    img: "https://covers.openlibrary.org/b/isbn/9788576573135-L.jpg",
-    synopsis: "Num planeta árido e desértico chamado Arrakis, jovem Paul Atreides precisa enfrentar intrigas políticas para proteger o bem mais valioso do universo: a especiaria.",
-    pages: [
-      "<strong>Capítulo 1: O Teste do Gom Jabbar</strong><br><br>A idosa Bene Gesserit observava o jovem Paul. 'Um homem precisa ter controle total sobre sua mente e sobre sua dor', alertou ela.",
-      "<strong>Capítulo 2: Chegada a Arrakis</strong><br><br>Arrakis era um deserto infinito. Sem água, sem chuva. Mas ali estava o segredo do império galáctico: a preciosa mistura chamada especiaria.",
-      "<strong>Capítulo 3: Os Vermes das Arenas</strong><br><br>O som rítmico no solo despertava os monstros gigantescos que habitavam sob a areia escaldante."
-    ]
-  },
-  { 
-    id: 5,
-    topic: "Desenvolvimento Pessoal", 
-    accent: "#D4A373",
-    title: "Hábitos Atômicos", 
-    author: "James Clear", 
-    price: "35,00",
-    img: "https://covers.openlibrary.org/b/isbn/9788550807560-L.jpg",
-    synopsis: "Um método revolucionário com pequenas mudanças diárias para transformar sua rotina, criar bons hábitos e alcançar resultados extraordinários.",
-    pages: [
-      "<strong>Capítulo 1: O Poder das Mudanças de 1%</strong><br><br>Pequenas melhorias diárias parecem insignificantes no começo, mas ao longo do tempo geram uma transformação gigante na sua vida.",
-      "<strong>Capítulo 2: Identidade e Hábitos</strong><br><br>Não foque apenas no que você quer alcançar, mas em quem você quer se tornar. Bons hábitos mudam sua autoimagem.",
-      "<strong>Capítulo 3: As Quatro Leis da Mudança</strong><br><br>Torne o hábito claro, atraente, fácil e satisfatório."
+      "<strong>Capítulo 1: Entrevista de Emprego</strong><br><br>Jack Torrance achava que o Hotel Overlook seria sua oportunidade perfeita de recomeço e isolamento para escrever.",
+      "<strong>Capítulo 2: O Quarto 217</strong><br><br>O pequeno Danny sentia que algo terrível espreitava nos corredores silenciosos e cobertos de neve."
     ]
   }
 ];
 
-const userLibrary = [ ...booksData.slice(0, 2) ]; 
-let selectedBookForModal = null;
-let activeReadingBook = null;
-let currentReaderPageIdx = 0;
-
-/* INICIALIZAÇÃO */
-window.onload = () => {
-  renderBooks(booksData);
-  renderLibrary();
-  renderCart();
-};
-
-/* CONTROLE DE TEMAS */
+/* TROCA DE TEMAS */
 function setTheme(themeName, element) {
-  document.documentElement.setAttribute('data-theme', themeName);
-  document.querySelectorAll('.theme-circle').forEach(el => el.classList.remove('active'));
+  document.body.removeAttribute('data-theme');
+  if (themeName !== 'rose') {
+    document.body.setAttribute('data-theme', themeName);
+  }
+  
+  const circles = document.querySelectorAll('.theme-circle');
+  circles.forEach(c => c.classList.remove('active'));
   if (element) element.classList.add('active');
 }
 
 /* NAVEGAÇÃO ENTRE TELAS */
 function navigateTo(screenId, btnElement) {
-  document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
+  // Esconde todas as telas ativas
+  const screens = document.querySelectorAll('.screen');
+  screens.forEach(s => s.classList.remove('active'));
+  
+  // Mostra apenas a tela selecionada
+  const targetScreen = document.getElementById(screenId);
+  if (targetScreen) {
+    targetScreen.classList.add('active');
+  }
+
+  // Atualiza botões da barra superior
+  const navBtns = document.querySelectorAll('.nav-btn');
+  navBtns.forEach(b => b.classList.remove('active'));
 
   if (btnElement) {
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
+  } else {
+    const activeNav = document.getElementById(`nav-${screenId}`);
+    if (activeNav) activeNav.classList.add('active');
   }
+
+  // Atualiza dados conforme a tela aberta
+  if (screenId === 'screen-cart') renderCart();
+  if (screenId === 'screen-library') renderLibrary();
 }
 
-/* AUTENTICAÇÃO */
+/* SISTEMA DE LOGIN E CADASTRO */
 function handleLogin() {
   const user = document.getElementById('login-username').value.trim();
   const pass = document.getElementById('login-password').value.trim();
   const errorMsg = document.getElementById('login-error-msg');
 
-  if (user !== "" && pass !== "") {
-    errorMsg.style.display = 'none';
+  if (!user || !pass) {
+    errorMsg.innerText = "Preencha todos os campos!";
+    errorMsg.style.display = "block";
+    return;
+  }
+
+  const found = registeredUsers.find(u => u.username === user && u.password === pass);
+
+  if (found || (user === "admin" && pass === "1234")) {
+    errorMsg.style.display = "none";
     document.getElementById('main-header').style.display = 'flex';
-    navigateTo('screen-home', document.getElementById('nav-screen-home'));
+    renderBooksGrid(booksData);
+    navigateTo('screen-home');
   } else {
-    errorMsg.style.display = 'block';
+    errorMsg.innerText = "Usuário ou senha incorretos! (Ou cadastre-se no botão abaixo)";
+    errorMsg.style.display = "block";
   }
 }
 
@@ -148,20 +140,43 @@ function handleSignup() {
   const errorMsg = document.getElementById('signup-error-msg');
   const successMsg = document.getElementById('signup-success-msg');
 
-  if (user !== "" && pass !== "") {
-    registeredUsers.push({ user, pass });
-    errorMsg.style.display = 'none';
-    successMsg.style.display = 'block';
-    setTimeout(() => {
-      successMsg.style.display = 'none';
-      navigateTo('screen-login');
-    }, 1500);
-  } else {
-    errorMsg.style.display = 'block';
+  if (!user || !pass) {
+    errorMsg.style.display = "block";
+    successMsg.style.display = "none";
+    return;
   }
+
+  registeredUsers.push({ username: user, password: pass });
+  errorMsg.style.display = "none";
+  successMsg.style.display = "block";
+
+  setTimeout(() => {
+    successMsg.style.display = "none";
+    navigateTo('screen-login');
+  }, 1500);
 }
 
-/* FILTRO E RENDERIZAÇÃO DE LIVROS NA CASA */
+/* CATÁLOGO E FILTROS */
+function renderBooksGrid(books) {
+  const grid = document.getElementById('book-grid');
+  grid.innerHTML = '';
+
+  books.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    card.style.setProperty('--book-accent', book.accent);
+    card.onclick = () => openBookModal(book);
+
+    card.innerHTML = `
+      <img src="${book.img}" alt="${book.title}">
+      <strong style="font-size:14px; margin-top:5px; color:var(--text-main);">${book.title}</strong>
+      <p style="font-size:12px; color:var(--text-muted);">${book.author}</p>
+      <p style="font-size:14px; font-weight:bold; color:var(--primary-color); margin-top:6px;">R$ ${book.price}</p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
 function toggleTopicDropdown() {
   const menu = document.getElementById('topic-dropdown-menu');
   menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -172,18 +187,44 @@ function filterBooks(topic) {
   document.getElementById('topic-dropdown-menu').style.display = 'none';
 
   if (topic === 'Todos') {
-    renderBooks(booksData);
+    renderBooksGrid(booksData);
   } else {
     const filtered = booksData.filter(b => b.topic === topic);
-    renderBooks(filtered);
+    renderBooksGrid(filtered);
   }
 }
 
-function renderBooks(list) {
-  const grid = document.getElementById('book-grid');
-  grid.innerHTML = "";
+/* PESQUISA */
+function toggleDropdown() {
+  const menu = document.getElementById('dropdown-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
 
-  list.forEach(book => {
+function handleSearch() {
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const placeholder = document.getElementById('search-placeholder');
+  const resultsGrid = document.getElementById('search-results-grid');
+
+  if (!query) {
+    placeholder.style.display = 'flex';
+    resultsGrid.style.display = 'none';
+    return;
+  }
+
+  const results = booksData.filter(b => 
+    b.title.toLowerCase().includes(query) || b.author.toLowerCase().includes(query)
+  );
+
+  placeholder.style.display = 'none';
+  resultsGrid.style.display = 'grid';
+  resultsGrid.innerHTML = '';
+
+  if (results.length === 0) {
+    resultsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted);">Nenhum livro encontrado.</p>';
+    return;
+  }
+
+  results.forEach(book => {
     const card = document.createElement('div');
     card.className = 'book-card';
     card.style.setProperty('--book-accent', book.accent);
@@ -191,21 +232,49 @@ function renderBooks(list) {
 
     card.innerHTML = `
       <img src="${book.img}" alt="${book.title}">
-      <strong>${book.title}</strong>
-      <p style="font-size: 12px; color: var(--text-muted);">${book.author}</p>
-      <p style="font-weight: bold; color: var(--primary-color); margin-top: 8px;">R$ ${book.price}</p>
+      <strong style="font-size:14px; color:var(--text-main);">${book.title}</strong>
+      <p style="font-size:12px; color:var(--text-muted);">${book.author}</p>
+      <p style="font-size:14px; font-weight:bold; color:var(--primary-color); margin-top:6px;">R$ ${book.price}</p>
     `;
-    grid.appendChild(card);
+    resultsGrid.appendChild(card);
   });
 }
 
-/* MODAL DE DETALHES DO LIVRO */
+function filterSearchGenre(genre) {
+  document.getElementById('dropdown-menu').style.display = 'none';
+  const placeholder = document.getElementById('search-placeholder');
+  const resultsGrid = document.getElementById('search-results-grid');
+
+  const results = genre === 'Todos' ? booksData : booksData.filter(b => b.topic === genre);
+
+  placeholder.style.display = 'none';
+  resultsGrid.style.display = 'grid';
+  resultsGrid.innerHTML = '';
+
+  results.forEach(book => {
+    const card = document.createElement('div');
+    card.className = 'book-card';
+    card.style.setProperty('--book-accent', book.accent);
+    card.onclick = () => openBookModal(book);
+
+    card.innerHTML = `
+      <img src="${book.img}" alt="${book.title}">
+      <strong style="font-size:14px; color:var(--text-main);">${book.title}</strong>
+      <p style="font-size:12px; color:var(--text-muted);">${book.author}</p>
+      <p style="font-size:14px; font-weight:bold; color:var(--primary-color); margin-top:6px;">R$ ${book.price}</p>
+    `;
+    resultsGrid.appendChild(card);
+  });
+}
+
+/* MODAL DO LIVRO */
 function openBookModal(book) {
-  selectedBookForModal = book;
+  currentSelectedBook = book;
   document.getElementById('modal-book-img').src = book.img;
   document.getElementById('modal-book-title').innerText = book.title;
   document.getElementById('modal-book-author').innerText = book.author;
   document.getElementById('modal-book-synopsis').innerText = book.synopsis;
+
   document.getElementById('modal-book-detail').style.display = 'flex';
 }
 
@@ -214,57 +283,42 @@ function closeModal(modalId) {
 }
 
 function addToCartAndNavigate() {
-  if (selectedBookForModal) {
-    if (!cartItems.some(item => item.id === selectedBookForModal.id)) {
-      cartItems.push(selectedBookForModal);
-      renderCart();
+  if (currentSelectedBook) {
+    const exists = cartItems.some(item => item.id === currentSelectedBook.id);
+    if (!exists) {
+      cartItems.push(currentSelectedBook);
     }
-    closeModal('modal-book-detail');
-    navigateTo('screen-cart', document.getElementById('nav-screen-cart'));
   }
+  closeModal('modal-book-detail');
+  navigateTo('screen-cart');
 }
 
-/* PESQUISA */
-function toggleDropdown() {
-  const dropdown = document.getElementById('dropdown-menu');
-  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-}
-
-/* CARRINHO E COMPRAS */
-function selectPaymentMethod(type, element) {
-  selectedPaymentType = type;
-  document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
-  element.classList.add('selected');
-
-  document.querySelectorAll('.payment-details-form').forEach(f => f.style.display = 'none');
-  if (type === 'pix') document.getElementById('form-pix').style.display = 'block';
-  if (type === 'credito' || type === 'debito') document.getElementById('form-card').style.display = 'block';
-  if (type === 'boleto') document.getElementById('form-boleto').style.display = 'block';
-  document.getElementById('validation-error-msg').style.display = 'none';
-}
-
+/* CARRINHO & PAGAMENTO */
 function renderCart() {
   const container = document.getElementById('cart-items-container');
-  container.innerHTML = "";
+  container.innerHTML = '';
 
   if (cartItems.length === 0) {
-    container.innerHTML = `<p class="empty-cart-msg">Seu carrinho está vazio 🌸</p>`;
+    container.innerHTML = '<p class="empty-cart-msg">Seu carrinho está vazio.</p>';
+    document.getElementById('checkout-btn').disabled = true;
     return;
   }
 
-  cartItems.forEach((item, index) => {
+  document.getElementById('checkout-btn').disabled = false;
+
+  cartItems.forEach((book, index) => {
     const itemDiv = document.createElement('div');
     itemDiv.className = 'cart-item';
     itemDiv.innerHTML = `
-      <img src="${item.img}" alt="${item.title}">
-      <div style="flex: 1;">
-        <strong>${item.title}</strong>
-        <p style="font-size: 12px; color: var(--text-muted);">${item.author}</p>
+      <img src="${book.img}" alt="${book.title}">
+      <div style="flex:1;">
+        <strong style="font-size:14px; color:var(--text-main);">${book.title}</strong>
+        <p style="font-size:12px; color:var(--text-muted);">${book.author}</p>
         <div class="price-row">
-          <span>Preço: <strong>R$ ${item.price}</strong></span>
+          <span style="font-weight:bold; color:var(--primary-color);">R$ ${book.price}</span>
         </div>
       </div>
-      <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #D9534F; cursor: pointer; font-size: 18px;">✕</button>
+      <button onclick="removeFromCart(${index})" style="background:none; border:none; color:#D9534F; cursor:pointer; font-weight:bold;">✕</button>
     `;
     container.appendChild(itemDiv);
   });
@@ -275,80 +329,125 @@ function removeFromCart(index) {
   renderCart();
 }
 
+function selectPaymentMethod(type, element) {
+  selectedPaymentType = type;
+  const options = document.querySelectorAll('.payment-option');
+  options.forEach(opt => opt.classList.remove('selected'));
+  if (element) element.classList.add('selected');
+
+  document.getElementById('form-pix').style.display = type === 'pix' ? 'block' : 'none';
+  document.getElementById('form-card').style.display = (type === 'credito' || type === 'debito') ? 'block' : 'none';
+  document.getElementById('form-boleto').style.display = type === 'boleto' ? 'block' : 'none';
+  
+  document.getElementById('validation-error-msg').style.display = 'none';
+}
+
 function validateAndOpenModal() {
   const errorMsg = document.getElementById('validation-error-msg');
-  if (cartItems.length === 0) {
-    alert("Adicione pelo menos um livro ao carrinho!");
+
+  if (!selectedPaymentType || cartItems.length === 0) {
+    errorMsg.style.display = 'block';
     return;
   }
 
-  if (!selectedPaymentType) {
+  let isValid = false;
+  if (selectedPaymentType === 'pix') {
+    isValid = !!document.getElementById('pix-cpf').value.trim();
+  } else if (selectedPaymentType === 'credito' || selectedPaymentType === 'debito') {
+    const num = document.getElementById('card-number').value.trim();
+    const name = document.getElementById('card-name').value.trim();
+    isValid = num && name;
+  } else if (selectedPaymentType === 'boleto') {
+    const name = document.getElementById('boleto-name').value.trim();
+    const cpf = document.getElementById('boleto-cpf').value.trim();
+    isValid = name && cpf;
+  }
+
+  if (!isValid) {
     errorMsg.style.display = 'block';
     return;
   }
 
   errorMsg.style.display = 'none';
-  let total = cartItems.reduce((acc, b) => acc + parseFloat(b.price.replace(',', '.')), 0);
+
+  const total = cartItems.reduce((acc, book) => acc + parseFloat(book.price.replace(',', '.')), 0);
   document.getElementById('total-price-label').innerText = `Total: R$ ${total.toFixed(2).replace('.', ',')} - Confirmar compra?`;
+  
   document.getElementById('modal-confirm').style.display = 'flex';
 }
 
 function confirmPurchase() {
   closeModal('modal-confirm');
-  cartItems.forEach(item => {
-    if (!userLibrary.some(b => b.id === item.id)) {
-      userLibrary.push(item);
+  
+  cartItems.forEach(book => {
+    if (!libraryItems.some(l => l.id === book.id)) {
+      libraryItems.push(book);
     }
   });
+
   cartItems.length = 0;
   renderCart();
-  renderLibrary();
+
   document.getElementById('modal-success').style.display = 'flex';
 }
 
-/* BIBLIOTECA E LEITOR */
+/* BIBLIOTECA & LEITOR DE LIVROS */
 function renderLibrary() {
   const grid = document.getElementById('library-grid');
-  grid.innerHTML = "";
+  grid.innerHTML = '';
 
-  userLibrary.forEach(book => {
+  if (libraryItems.length === 0) {
+    grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted);">Sua biblioteca está vazia. Adquira livros no carrinho!</p>';
+    return;
+  }
+
+  libraryItems.forEach(book => {
     const card = document.createElement('div');
     card.className = 'biblio-card';
     card.innerHTML = `
       <img src="${book.img}" alt="${book.title}">
-      <strong>${book.title}</strong>
-      <p style="font-size: 12px; color: var(--text-muted);">${book.author}</p>
-      <button class="biblio-btn" onclick="openReader(${book.id})">Ler Livro</button>
+      <strong style="font-size:14px; color:var(--text-main);">${book.title}</strong>
+      <p style="font-size:12px; color:var(--text-muted);">${book.author}</p>
+      <button class="biblio-btn" onclick="openReader(${book.id})">Ler Agora</button>
     `;
     grid.appendChild(card);
   });
 }
 
 function openReader(bookId) {
-  activeReadingBook = userLibrary.find(b => b.id === bookId);
-  if (!activeReadingBook) return;
+  const book = libraryItems.find(b => b.id === bookId);
+  if (!book) return;
 
-  currentReaderPageIdx = 0;
-  document.getElementById('reader-book-title').innerText = activeReadingBook.title;
-  document.getElementById('reader-book-author').innerText = activeReadingBook.author;
-  document.getElementById('reader-total-pages').innerText = activeReadingBook.pages.length;
+  activeReadingBook = book;
+  currentReadingPage = 0;
+
+  document.getElementById('reader-book-title').innerText = book.title;
+  document.getElementById('reader-book-author').innerText = book.author;
+  document.getElementById('reader-total-pages').innerText = book.pages ? book.pages.length : 1;
+
   updateReaderContent();
-
   navigateTo('screen-reader');
 }
 
 function updateReaderContent() {
-  if (!activeReadingBook) return;
-  const textContent = activeReadingBook.pages[currentReaderPageIdx];
-  document.getElementById('reader-text-content').innerHTML = textContent;
-  document.getElementById('reader-current-page').innerText = currentReaderPageIdx + 1;
-  document.getElementById('reader-bookmark-page').innerText = currentReaderPageIdx + 1;
+  if (!activeReadingBook || !activeReadingBook.pages) return;
 
-  document.getElementById('btn-prev-page').disabled = currentReaderPageIdx === 0;
-  document.getElementById('btn-next-page').disabled = currentReaderPageIdx === activeReadingBook.pages.length - 1;
+  const contentArea = document.getElementById('reader-text-content');
+  contentArea.innerHTML = activeReadingBook.pages[currentReadingPage] || "Página em branco.";
+
+  document.getElementById('reader-current-page').innerText = currentReadingPage + 1;
+  document.getElementById('reader-bookmark-page').innerText = currentReadingPage + 1;
+
+  document.getElementById('btn-prev-page').disabled = currentReadingPage === 0;
+  document.getElementById('btn-next-page').disabled = currentReadingPage === activeReadingBook.pages.length - 1;
 }
 
 function changeReaderPage(delta) {
-  currentReaderPageIdx += delta;
-  updateReaderContent();
+  if (!activeReadingBook || !activeReadingBook.pages) return;
+  const newPage = currentReadingPage + delta;
+
+  if (newPage >= 0 && newPage < activeReadingBook.pages.length) {
+    currentReadingPage = newPage;
+    updateReaderContent();
+  }
 }
